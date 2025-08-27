@@ -1,0 +1,81 @@
+[project]
+name = "mlx-dinov3"
+version = "0.1.0"
+description = "A re-implementation of DINOv3 in MLX"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "mlx>=0.28.0",
+    "numpy>=2.3.2",
+    "pillow>=11.3.0",
+]
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.3.0",
+    "pytest>=8.4.1",
+    "ruff>=0.12.9",
+    "ipykernel"
+]
+
+#### Ruff Configuration ####
+[tool.ruff]
+line-length = 150
+fix = true
+
+[tool.ruff.lint]
+select = ["C4", "D", "E", "F", "I", "ICN", "SIM", "W"]
+ignore = ["D100", "D102", "D105", "D107", "SIM910"]
+exclude = [
+    ".eggs",
+    ".git",
+    ".mypy_cache",
+    ".ruff_cache",
+    ".venv",
+    "__pypackage__",
+    "build",
+    "venv",
+]
+
+# Allow unused variables when underscore-prefixed
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.lint.isort]
+lines-after-imports = 2
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+
+[tool.ruff.lint.per-file-ignores]
+"*/__init__.py" = ["F401", "D104", "I001"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 12
+
+[tool.ruff.lint.flake8-import-conventions.aliases]
+"matplotlib.pyplot" = "plt"
+numpy = "np"
+pandas = "pd"
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+
+#### Pytest Configuration ####
+[tool.pytest.ini_options]
+addopts = [
+    "--color=yes",
+    "--durations=0",
+    "--strict-markers",
+    "--doctest-modules",
+    "--disable-warnings",
+    "-v",
+]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::UseWarning",
+]
+log_cli = true
+minversion = "7.0"
