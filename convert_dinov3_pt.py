@@ -7,8 +7,8 @@
 # ]
 # ///
 
-from pathlib import Path
 import argparse
+from pathlib import Path
 from typing import Any, Tuple
 
 
@@ -122,8 +122,8 @@ def parse_args() -> argparse.Namespace:
 
 
 def convert(checkpoint_path: Path, out_dir: Path | None, model_type: str, model_size: str, verbose: bool = False) -> Path:
-    import torch
     import mlx.core as mx
+    import torch
     from mlx.utils import tree_flatten, tree_unflatten
 
     from dinov3.models import get_convnext
@@ -180,4 +180,3 @@ if __name__ == "__main__":  # pragma: no cover
     args = parse_args()
     model_type, model_size = args.model or infer_model_from_filename(args.checkpoint)
     output = convert(args.checkpoint, args.out_dir, model_type, model_size, verbose=args.verbose)
-

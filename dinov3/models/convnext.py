@@ -72,7 +72,7 @@ class LayerNorm(nn.Module):
             x = (x - u) / mx.sqrt(s + self.eps)
             x = self.weight[None, None, :] * x + self.bias[None, None, :]
             return x
-        
+
 
 class Block(nn.Module):
     r"""ConvNeXt Block. There are two equivalent implementations:
@@ -121,8 +121,6 @@ class ConvNeXt(nn.Module):
         **ignored_kwargs,
     ):
         super().__init__()
-        if len(ignored_kwargs) > 0:
-            print(f"Warning: Ignored kwargs: {ignored_kwargs}")
         del ignored_kwargs
 
         # Stem + 3 intermediate downsampling conv layers
@@ -192,12 +190,12 @@ class ConvNeXt(nn.Module):
             )
 
         return output
-    
+
     def forward_features(self, x: mx.array | list[mx.array], masks: mx.array | None = None) -> dict[str, mx.array] | list[dict[str, mx.array]]:
         if isinstance(x, list):
             return self.forward_features_list(x, masks)
         return self.forward_features_list([x], [masks])[0]
-    
+
     def __call__(self, *args, is_training: bool = False, **kwargs):
         ret = self.forward_features(*args, **kwargs)
         if is_training:
@@ -259,7 +257,7 @@ class ConvNeXt(nn.Module):
         if return_class_token:
             return tuple(zip(outputs, class_tokens))
         return tuple(outputs)
-    
+
 def get_convnext(size: str = "base", **kwargs) -> ConvNeXt:
     if size not in SIZE_DICT:
         raise ValueError(f"Unsupported ConvNeXt size: {size}. Supported sizes: {list(SIZE_DICT.keys())}")
